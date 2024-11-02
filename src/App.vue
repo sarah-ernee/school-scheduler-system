@@ -1,7 +1,5 @@
 <template>
-  <main>
-    <SettingsForm />
-  </main>
+  <SettingsForm />
 </template>
 
 <script setup lang="ts">
