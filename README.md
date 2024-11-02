@@ -1,39 +1,12 @@
 # school-scheduler-system
 
-This template should help get you started developing with Vue 3 in Vite.
+Built with Vue3 and Vite. Planned to use [vue-full-calendar](https://www.npmjs.com/package/vue-full-calendar) but ran into dependency issues. Could not try out transformation of data from parent component, scheduleSlots to create weekly event in child component.
 
-## Recommended IDE Setup
+Designed as an SPA where SettingsForm as the parent component and ScheduleTable as the child component.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+If given more time, would iron things out like:
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+1. Validation of number of slots against input in booking sessions
+2. Refine addition and removal of time slots
+3. UI responsiveness in different screen sizes
+4. Dependency issue with vue-full-calendar

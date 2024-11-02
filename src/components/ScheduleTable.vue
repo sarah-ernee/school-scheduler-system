@@ -1,41 +1,24 @@
 <template>
-  <v-card class="mt-4 p-4 rounded-lg shadow-md">
-    <h2 class="text-gray-700 font-semibold mb-4">Schedule</h2>
-    <table class="min-w-full">
-      <thead>
-        <tr>
-          <th class="text-left text-gray-600">Day</th>
-          <th class="text-left text-gray-600">Time Slots</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(slot, index) in scheduleSlots" :key="index">
-          <td class="border-b p-2">{{ slot.day }}</td>
-          <td class="border-b p-2">
-            <div v-if="slot.isChecked">
-              <div v-for="(timeSlot, timeIndex) in slot.timeSlots" :key="timeIndex">
-                {{ formatTimeSlot(timeSlot) }}
-              </div>
-            </div>
-            <div v-else class="text-gray-500">Unavailable</div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </v-card>
+  <FullCalendar
+    :events="events"
+    :options="calendarOptions"
+    @dateClick="handleDateClick"
+  />
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
+import { defineProps, computed } from 'vue'
+import FullCalendar from 'vue-full-calendar'
+import '@fullcalendar/main.min.css'
 
-interface Time {
+interface TimeSlot {
   startTime: string
   endTime: string
 }
 
 interface Slot {
   day: string
-  timeSlots: Time[]
+  timeSlots: TimeSlot[]
   isChecked: boolean
 }
 
@@ -43,28 +26,46 @@ const props = defineProps<{
   scheduleSlots: Slot[]
 }>()
 
-const formatTimeSlot = (timeSlot: Time): string => {
-  return `${timeSlot.startTime} - ${timeSlot.endTime}`
+const daysMap: { [key: string]: number } = {
+  Mon: 1,
+  Tues: 2,
+  Wed: 3,
+  Thurs: 4,
+  Fri: 5,
+  Sat: 6,
+  Sun: 0,
+}
+
+const events = computed(() => {
+  const allEvents: any[] = []
+  props.scheduleSlots.forEach(slot => {
+    slot.timeSlots.forEach(timeSlot => {
+      const event = {
+        title: 'Available',
+        start: `2024-11-01T${timeSlot.startTime}:00`,
+        end: `2024-11-01T${timeSlot.endTime}:00`,
+        dow: [daysMap[slot.day]],
+      }
+      allEvents.push(event)
+    })
+  })
+  return allEvents
+})
+
+const calendarOptions = {
+  initialView: 'timeGridWeek',
+  headerToolbar: {
+    left: 'prev,next today',
+    center: 'title',
+    right: 'timeGridWeek,timeGridDay',
+  },
+  slotDuration: '00:30:00',
+  selectable: true,
+  editable: true,
+  events: events.value,
+}
+
+const handleDateClick = (arg: any) => {
+  console.log('Date clicked: ', arg.date)
 }
 </script>
-
-<style scoped>
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  padding: 0.5rem;
-  text-align: left;
-}
-
-th {
-  border-bottom: 2px solid #e0e0e0;
-}
-
-td {
-  border-bottom: 1px solid #e0e0e0;
-}
-</style>

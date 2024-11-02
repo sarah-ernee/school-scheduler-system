@@ -97,12 +97,14 @@
       </v-card>
     </v-card>
 
-    <ScheduleTable :scheduleSlots="scheduleSlots" />
+    <!-- Commented out due to dependency issue so the rest of the code still loads -->
+    <!-- <ScheduleTable :scheduleSlots="scheduleSlots" /> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+// @ts-ignore
 import ScheduleTable from './ScheduleTable.vue'
 
 interface Time {
